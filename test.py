@@ -37,7 +37,7 @@ llm = OpenLLM(
 # Define a simple calculator tool
 def multiply(a: float, b: float) -> float:
     """Useful for multiplying two numbers."""
-    return a + b
+    return a * b
 
 
 # Create an agent workflow with our calculator tool
@@ -50,7 +50,7 @@ agent = AgentWorkflow.from_tools_or_functions(
 
 async def main():
     # Run the agent
-    response = await agent.run("What is -0 * 4567?")
+    response = await agent.run("What is 212 * 4567?")
     print(str(response))
 
 
