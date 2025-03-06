@@ -1,3 +1,10 @@
+# repos avaiable
+data/repos/kiali-master
+data/repos/kiali
+data/repos/istio
+data/repos/sail-operator
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
