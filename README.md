@@ -2,6 +2,7 @@
 the assistant 
 
 ```
+$ cd ./data/repos && git clone git@github.com:run-llama/llama_index.git
 $ python -m venv ./venv
 $ source ./venv/bin/activate
 ``` 
