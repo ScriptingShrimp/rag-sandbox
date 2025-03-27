@@ -1,0 +1,12 @@
+db:
+  database: mydatabase
+  user: admin
+  password: secret
+  host: localhost
+  port: 5432
+
+ollama:
+  model: llama3.3:70b-instruct-q2_K
+
+embedding:
+  model: sentence-transformers/all-MiniLM-L6-v2
