@@ -67,11 +67,15 @@ docs = reader.load_data()
 print(f"Loaded {len(docs)} docs")
 
 # Select an embedding model
-embed_model = HuggingFaceEmbedding(model_name=cfg["embedding"]["model"])
+embed_model = HuggingFaceEmbedding(
+    model_name=cfg["embedding"]["model"],
+    # max_length=cfg["embedding"]["dimensions"]
+    )
 
 # Create and store the index  Build the index with your documents
 index = VectorStoreIndex.from_documents(
-    docs, embed_model=embed_model, 
+    docs, 
+    embed_model=embed_model,
     storage_context=storage_context
     )
 

@@ -5,31 +5,35 @@ from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from sqlalchemy import create_engine
 from llama_index.llms.ollama import Ollama
+import yaml
+
 
 # Initialize Ollama LLM
 llm = Ollama(model="llama3.3:70b-instruct-q2_K", request_timeout=360.0)
 
+# Load YAML config
+with open("config.yaml") as f:
+    cfg = yaml.safe_load(f)
 
-embed_model = HuggingFaceEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
-# Database connection details
-db_name = "mydatabase"
-host = "localhost"
-user = "admin"
-password = "secret"
-port = "5432"
+
+# Select an embedding model
+embed_model = HuggingFaceEmbedding(
+    model_name=cfg["embedding"]["model"],
+    # max_length=cfg["embedding"]["dimensions"]
+    )
 
 # Create a connection string
-connection_string = f"postgresql://(user):{password}@{host}:{port}/{db_name}"
+connection_string = f"postgresql://(user):{cfg["db"]["password"]}@{cfg["db"]["host"]}:{cfg["db"]["port"]}/{cfg["db"]["name"]}"
 
 # Initialize PGVectorStore
 vector_store = PGVectorStore.from_params(
-    database=db_name,
-    host=host,
-    password=password,
-    port=port,
-    user=user,
-    table_name="vector_store_table",
-    embed_dim=384  # Example embedding dimension
+    database=cfg["db"]["name"],
+    user=cfg["db"]["user"],
+    password=cfg["db"]["password"],
+    host=cfg["db"]["host"],
+    port=cfg["db"]["port"],
+    table_name=cfg["db"]["table"],
+    embed_dim=cfg["embedding"]["dimensions"]
 )
 
 
@@ -41,7 +45,7 @@ index = VectorStoreIndex.from_vector_store(vector_store, embed_model=embed_model
 # Create a query engine
 query_engine = index.as_query_engine(llm=llm)
 # Query the index
-response = query_engine.query("how to setup and test kiali in kind cluster?")
+response = query_engine.query("what is OLM?")
 print(response)
 
 
