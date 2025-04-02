@@ -1,10 +1,9 @@
-# import yaml
+import yaml
 
-# # Load YAML config
-# with open("config.yaml") as f:
-#     cfg = yaml.safe_load(f)
+# Load YAML config
+with open("config.yaml") as f:
+    cfg = yaml.safe_load(f)
 
-# print(cfg["ollama"]["model"], cfg["db"])
+print(cfg["data"]["extensions"], cfg["db"]["name"], cfg["embedding"]["model"])
 
-# from ml.embbed_and_store import init_db  
-# init_db(cfg["db"], cfg["embedding"]["model"])
+
