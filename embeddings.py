@@ -12,6 +12,15 @@ import yaml
 with open("config.yaml") as f:
     cfg = yaml.safe_load(f)
 
+# Load your documents
+reader = SimpleDirectoryReader(
+    input_dir=cfg["data"]["folder"],
+    required_exts=cfg["data"]["extensions"],
+    recursive=True,
+)
+
+docs = reader.load_data()
+print(f"Loaded {len(docs)} docs")
 
 def create_table_if_not_exists():
     conn = psycopg2.connect(
@@ -55,16 +64,6 @@ vector_store = PGVectorStore.from_params(
 )
 # Create a storage context with the PGVectorStore
 storage_context = StorageContext.from_defaults(vector_store=vector_store)
-
-# Load your documents
-reader = SimpleDirectoryReader(
-    input_dir=cfg["data"]["folder"],
-    required_exts=cfg["data"]["extensions"],
-    recursive=True,
-)
-
-docs = reader.load_data()
-print(f"Loaded {len(docs)} docs")
 
 # Select an embedding model
 embed_model = HuggingFaceEmbedding(

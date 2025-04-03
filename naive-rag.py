@@ -15,12 +15,8 @@ llm = Ollama(model="llama3.3:70b-instruct-q2_K", request_timeout=360.0)
 with open("config.yaml") as f:
     cfg = yaml.safe_load(f)
 
-
 # Select an embedding model
-embed_model = HuggingFaceEmbedding(
-    model_name=cfg["embedding"]["model"],
-    # max_length=cfg["embedding"]["dimensions"]
-    )
+embed_model = HuggingFaceEmbedding(model_name=cfg["embedding"]["model"])
 
 # Create a connection string
 connection_string = f"postgresql://(user):{cfg["db"]["password"]}@{cfg["db"]["host"]}:{cfg["db"]["port"]}/{cfg["db"]["name"]}"
@@ -36,19 +32,20 @@ vector_store = PGVectorStore.from_params(
     embed_dim=cfg["embedding"]["dimensions"]
 )
 
-
 # Create a storage context with the existing vector store
 storage_context = StorageContext.from_defaults(vector_store=vector_store)
+
 # Load the index from the storage context
-index = VectorStoreIndex.from_vector_store(vector_store, embed_model=embed_model, storage_context=storage_context)
+index = VectorStoreIndex.from_vector_store(
+    vector_store, 
+    embed_model=embed_model, 
+    storage_context=storage_context)
 
 # Create a query engine
 query_engine = index.as_query_engine(llm=llm)
 # Query the index
-response = query_engine.query("what is OLM?")
+response = query_engine.query("What is Kiali internal API about? can you give me a summary?")
 print(response)
-
-
 
 # Use the LLM to generate responses based on retrieved context
 llm_response = llm.complete(response)
