@@ -73,7 +73,7 @@ embed_model = HuggingFaceEmbedding(
 
 # Create and store the index  Build the index with your documents
 index = VectorStoreIndex.from_documents(
-    docs, 
+    docs,
     embed_model=embed_model,
     storage_context=storage_context
     )

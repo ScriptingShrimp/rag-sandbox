@@ -1,6 +1,6 @@
 db:
   name: mydatabase
-  table: novadb
+  table: kiali
   user: admin
   password: secret
   host: localhost
