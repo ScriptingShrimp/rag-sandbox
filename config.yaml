@@ -1,16 +1,17 @@
 db:
   name: mydatabase
-  table: kiali
+  table: nova5
   user: admin
   password: secret
   host: localhost
   port: 5432
 
 ollama:
-  model: llama3.3:70b-instruct-q2_K
+  model: granite3.3:latest
+  temperature: 0.2
 
 embedding:
-  model: intfloat/multilingual-e5-large
+  model: mxbai-embed-large:latest
   dimensions: 1024
 
 data:

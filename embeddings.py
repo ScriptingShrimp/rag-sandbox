@@ -1,12 +1,20 @@
-from llama_index.core import SimpleDirectoryReader
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from llama_index.core import VectorStoreIndex
+from llama_index.core import (
+    VectorStoreIndex,
+    SimpleDirectoryReader,
+    StorageContext
+)
 from llama_index.vector_stores.postgres import PGVectorStore
-from llama_index.core import StorageContext, VectorStoreIndex
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.embeddings.ollama import OllamaEmbedding
+
 import psycopg2
 from psycopg2 import sql
 import yaml
+
+import logging
+import sys
+
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
 
 # Load YAML config
 with open("config.yaml") as f:
@@ -65,18 +73,49 @@ vector_store = PGVectorStore.from_params(
 # Create a storage context with the PGVectorStore
 storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
+
+
 # Select an embedding model
-embed_model = HuggingFaceEmbedding(
+embed_model = OllamaEmbedding(
     model_name=cfg["embedding"]["model"],
-    # max_length=cfg["embedding"]["dimensions"]
+    max_length=cfg["embedding"]["dimensions"],
+    base_url="http://localhost:11434",
+    embed_batch_size=1024,
+    ollama_additional_kwargs={"mirostat": 0},
     )
 
-# Create and store the index  Build the index with your documents
+
+
+
+
+pass_embedding = embed_model.get_text_embedding_batch(
+    ["This is a passage!", "This is another passage"], show_progress=True
+)
+print(pass_embedding)
+
+query_embedding = embed_model.get_query_embedding("Where is blue?")
+print(query_embedding)
+
+
+
+
 index = VectorStoreIndex.from_documents(
     docs,
     embed_model=embed_model,
-    storage_context=storage_context
+    storage_context=storage_context,
+    show_progress=True,
     )
 
-# Persist the index to PostgreSQL
+
+
+
+
+
+# # # Create and store the index  Build the index with your documents
+# index = VectorStoreIndex.from_documents(
+#     docs, embed_model=embed_model, storage_context=storage_context
+# )
+
+
+# # Persist the index to PostgreSQL
 index.storage_context.persist()

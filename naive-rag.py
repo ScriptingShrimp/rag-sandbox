@@ -3,20 +3,28 @@ from llama_index.core import StorageContext
 from llama_index.vector_stores.postgres import PGVectorStore
 from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.embeddings.ollama import OllamaEmbedding
 from sqlalchemy import create_engine
 from llama_index.llms.ollama import Ollama
 import yaml
+import logging
+import sys
 
-
-# Initialize Ollama LLM
-llm = Ollama(model="llama3.3:70b-instruct-q2_K", request_timeout=360.0)
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
 
 # Load YAML config
 with open("config.yaml") as f:
     cfg = yaml.safe_load(f)
 
+# Initialize Ollama LLM
+llm = Ollama(
+    model=cfg['ollama']['model'],
+    request_timeout=360.0,
+    temperature=cfg['ollama']['temperature'],
+    )
 # Select an embedding model
-embed_model = HuggingFaceEmbedding(model_name=cfg["embedding"]["model"])
+embed_model = OllamaEmbedding(model_name=cfg['embedding']['model'])
 
 # Create a connection string
 connection_string = f"postgresql://(user):{cfg["db"]["password"]}@{cfg["db"]["host"]}:{cfg["db"]["port"]}/{cfg["db"]["name"]}"
@@ -39,7 +47,8 @@ storage_context = StorageContext.from_defaults(vector_store=vector_store)
 index = VectorStoreIndex.from_vector_store(
     vector_store, 
     embed_model=embed_model, 
-    storage_context=storage_context)
+    storage_context=storage_context,
+)
 
 # Create a query engine
 query_engine = index.as_query_engine(llm=llm)
@@ -47,6 +56,4 @@ query_engine = index.as_query_engine(llm=llm)
 response = query_engine.query("Based on provided context, tell me what is Kiali. Additionaly descripbe Kiali internal API and what is used for?")
 print(response)
 
-# Use the LLM to generate responses based on retrieved context
-llm_response = llm.complete(response)
-print(llm_response)
+
