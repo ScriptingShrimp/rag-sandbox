@@ -2,9 +2,7 @@ from sqlalchemy import create_engine
 from llama_index.core import StorageContext
 from llama_index.vector_stores.postgres import PGVectorStore
 from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.embeddings.ollama import OllamaEmbedding
-from sqlalchemy import create_engine
 from llama_index.llms.ollama import Ollama
 import yaml
 import logging
