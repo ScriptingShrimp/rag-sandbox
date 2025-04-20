@@ -1,0 +1,53 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-5.4.2
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.kubernetes.cri-o.SandboxID/pgadmincontainer: ceb42283d327551d46848a625ef453a256658764219d088fb8a41d7a67c093b9
+    io.kubernetes.cri-o.SandboxID/pgvectorcontainer: ceb42283d327551d46848a625ef453a256658764219d088fb8a41d7a67c093b9
+  creationTimestamp: "2025-04-20T10:38:25Z"
+  labels:
+    app: postgrespod
+  name: postgrespod
+spec:
+  containers:
+  - env:
+    - name: PGADMIN_DEFAULT_EMAIL
+      value: admin@example.com
+    - name: PGADMIN_DEFAULT_PASSWORD
+      value: admin123
+    image: docker.io/dpage/pgadmin4:latest
+    name: pgadmincontainer
+    ports:
+    - containerPort: 5432
+      hostPort: 5432
+    - containerPort: 80
+      hostPort: 8888
+    securityContext: {}
+    volumeMounts:
+    - mountPath: /var/lib/pgadmin
+      name: pgadmin-data-pvc
+  - args:
+    - postgres
+    env:
+    - name: POSTGRES_PASSWORD
+      value: secret
+    - name: POSTGRES_DB
+      value: mydatabase
+    - name: POSTGRES_USER
+      value: admin
+    image: docker.io/pgvector/pgvector:pg17
+    name: pgvectorcontainer
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: postgres-data-pvc
+  volumes:
+  - name: pgadmin-data-pvc
+    persistentVolumeClaim:
+      claimName: pgadmin-data
+  - name: postgres-data-pvc
+    persistentVolumeClaim:
+      claimName: postgres-data

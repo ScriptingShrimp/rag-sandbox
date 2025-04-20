@@ -53,7 +53,5 @@ index = VectorStoreIndex.from_vector_store(
 # Create a query engine
 query_engine = index.as_query_engine(llm=llm)
 # Query the index
-response = query_engine.query("Based on provided context, tell me what is Kiali. Additionaly descripbe Kiali internal API and what is used for?")
+response = query_engine.query("how I can create server to serve llamaindex RAG? ")
 print(response)
-
-

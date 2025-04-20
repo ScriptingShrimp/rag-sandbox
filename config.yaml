@@ -1,6 +1,6 @@
 db:
   name: mydatabase
-  table: nova5
+  table: llamaindex
   user: admin
   password: secret
   host: localhost
@@ -15,7 +15,6 @@ embedding:
   dimensions: 1024
 
 data:
-  folder: ./data/repos/kiali-master
+  folder: ./data/repos/llama_index
   extensions: #.csv .docx .epub .hwp .ipynb .jpeg, .jpg .mbox .md .mp3, .mp4 .pdf .png .ppt, .pptm, .pptx (no .json)
     - .md
-    - .sh
