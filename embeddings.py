@@ -41,6 +41,7 @@ def create_table_if_not_exists():
 
     cursor = conn.cursor()
     create_table_query = sql.SQL('''
+    CREATE EXTENSION IF NOT EXISTS vector;
     CREATE TABLE IF NOT EXISTS {} (
         id SERIAL PRIMARY KEY,
         text TEXT NOT NULL,
@@ -70,6 +71,8 @@ vector_store = PGVectorStore.from_params(
     table_name=cfg["db"]["table"],
     embed_dim=cfg["embedding"]["dimensions"]
 )
+
+print("PGVectorStore initialized")
 # Create a storage context with the PGVectorStore
 storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
@@ -88,13 +91,13 @@ embed_model = OllamaEmbedding(
 
 
 
-pass_embedding = embed_model.get_text_embedding_batch(
-    ["This is a passage!", "This is another passage"], show_progress=True
-)
-print(pass_embedding)
+# pass_embedding = embed_model.get_text_embedding_batch(
+#     ["This is a passage!", "This is another passage"], show_progress=True
+# )
+# print(pass_embedding)
 
-query_embedding = embed_model.get_query_embedding("Where is blue?")
-print(query_embedding)
+# query_embedding = embed_model.get_query_embedding("Where is blue?")
+# print(query_embedding)
 
 
 
