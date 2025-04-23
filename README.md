@@ -29,6 +29,7 @@ $ git clone git@github.com:kiali/kiali.git && git clone git@github.com:istio-eco
 - ![image](https://github.com/user-attachments/assets/12860396-f137-4c23-ba85-5785ccafcd84)
 - embeddings are stored in mydatabase > schemas > tables > data_ossm30 (rightclick "View/Edit Data")
 - run `python naive-rag.py` to answer generic question or change it via `response = query_engine.query("what is sail operator and how to use it?")`
+- check `config.yaml` for additional variables 
 
 ## TODO
 - flag to diable debugging output
