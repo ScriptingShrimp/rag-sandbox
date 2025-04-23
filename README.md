@@ -1,6 +1,9 @@
 # rag-sandbox
 Run your own naive RAG locally!
 
+# setup 
+## requirements 
+ollama, podman, python3.12
 ```
 $ ollama pull mxbai-embed-large:latest
 $ ollama pull granite3.3:latest
@@ -17,6 +20,13 @@ $ source ./venv/bin/activate
 $ pip install -r requirements.txt
 
 $ podman play kube pods.yaml
-``` 
+```
 
-TODO: pass `pgsql.json` to pods on creation / setup
+## usage
+- after setup run `python embeddings.py`
+- once you emmbed all your documents, you can check via pgadmin at `localhost:8888` - see `pods.yaml` line 19 for credentials
+- run `python naive-rag.py` to answer generic question or change it via `response = query_engine.query("what is sail operator and how to use it?")`
+
+## TODO
+- flag to diable debugging output
+- pass `pgsql.json` to pods on creation / setup
