@@ -24,10 +24,10 @@ $ git clone git@github.com:kiali/kiali.git && git clone git@github.com:istio-eco
 
 ## usage
 - after setup run `python embeddings.py`
-- once you emmbed all your documents, you can check via pgadmin at `localhost:8888` - see `pods.yaml` line 19 for credentials
-- you needo to register your pgvector
+- (optional) once you emmbed all your documents, you can check via pgadmin at `localhost:8888` - see `pods.yaml` line 19 for credentials
+- (optional) you needo to register your pgvector
 - ![image](https://github.com/user-attachments/assets/12860396-f137-4c23-ba85-5785ccafcd84)
-- embeddings are stored in mydatabase > schemas > tables > data_ossm30 (rightclick "View/Edit Data")
+- (optional) embeddings are stored in mydatabase > schemas > tables > data_ossm30 (rightclick "View/Edit Data")
 - run `python naive-rag.py` to answer generic question or change it via `response = query_engine.query("what is sail operator and how to use it?")`
 - check `config.yaml` for additional variables 
 
