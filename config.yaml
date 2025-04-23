@@ -1,6 +1,6 @@
 db:
   name: mydatabase
-  table: ossm3
+  table: ossm30
   user: admin
   password: secret
   host: localhost
