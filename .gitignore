@@ -1,9 +1,6 @@
 # repos avaiable
-data/repos/kiali-master
-data/repos/kiali
-data/repos/istio
-data/repos/sail-operator
-data/repos/llama_index
+data/repos/
+storage/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
