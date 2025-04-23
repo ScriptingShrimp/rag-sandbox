@@ -18,7 +18,7 @@ $ pip install -r requirements.txt
 
 $ podman play kube pods.yaml
 
-$ cd ./data/repos 
+$ mkdir data/ && mkdir data/repos && cd ./data/repos 
 $ git clone git@github.com:kiali/kiali.git && git clone git@github.com:istio-ecosystem/sail-operator.git 
 ```
 
