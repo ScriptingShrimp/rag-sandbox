@@ -1,9 +1,9 @@
 {
     "Servers": {
         "1": {
-            "Name": "pgadmincontainer",
+            "Name": "postgrespod-pgvectorcontainer",
             "Group": "Servers",
-            "Host": "pgadmincontainer",
+            "Host": "postgrespod-pgvectorcontainer",
             "Port": 5432,
             "MaintenanceDB": "postgres",
             "Username": "admin",

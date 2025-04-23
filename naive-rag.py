@@ -1,12 +1,13 @@
-from sqlalchemy import create_engine
-from llama_index.core import StorageContext
-from llama_index.vector_stores.postgres import PGVectorStore
-from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
-from llama_index.embeddings.ollama import OllamaEmbedding
-from llama_index.llms.ollama import Ollama
 import yaml
 import logging
 import sys
+
+# from sqlalchemy import create_engine
+from llama_index.core import StorageContext, VectorStoreIndex
+from llama_index.vector_stores.postgres import PGVectorStore
+from llama_index.embeddings.ollama import OllamaEmbedding
+from llama_index.llms.ollama import Ollama
+
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
@@ -51,5 +52,5 @@ index = VectorStoreIndex.from_vector_store(
 # Create a query engine
 query_engine = index.as_query_engine(llm=llm)
 # Query the index
-response = query_engine.query("how I can create server to serve llamaindex RAG? ")
+response = query_engine.query("what is sail operator and how to use it?")
 print(response)
