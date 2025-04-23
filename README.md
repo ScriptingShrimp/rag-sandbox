@@ -1,5 +1,5 @@
-# ta
-the assistant 
+# rag-sandbox
+Run your own naive RAG locally!
 
 ```
 $ ollama pull mxbai-embed-large:latest
