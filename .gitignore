@@ -1,6 +1,7 @@
 # repos avaiable
 data/repos/
 storage/
+books/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
