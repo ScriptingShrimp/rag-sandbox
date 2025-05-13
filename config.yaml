@@ -1,13 +1,13 @@
 db:
   name: mydatabase
-  table: ossm30
+  table: istio
   user: admin
   password: secret
   host: localhost
   port: 5432
 
 ollama:
-  model: granite3.3:latest
+  model: deepseek-r1:8b-llama-distill-fp16
   temperature: 0.2
 
 embedding:
@@ -15,6 +15,6 @@ embedding:
   dimensions: 1024
 
 data:
-  folder: ./data/repos/
+  folder: ./data/books/
   extensions: #.csv .docx .epub .hwp .ipynb .jpeg, .jpg .mbox .md .mp3, .mp4 .pdf .png .ppt, .pptm, .pptx (no .json)
     - .md
