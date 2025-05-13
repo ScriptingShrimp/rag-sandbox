@@ -79,19 +79,26 @@ embed_model = OllamaEmbedding(
     model_name=cfg["embedding"]["model"],
     max_length=cfg["embedding"]["dimensions"],
     base_url="http://localhost:11434",
-    embed_batch_size=1024,
+    embed_batch_size=1,
     ollama_additional_kwargs={"mirostat": 0},
     )
 
+# Sanitize document texts to remove NUL characters
+sanitized_docs = []
+for doc in docs:
+    if "\x00" in doc.text:
+        logging.warning(f"Document contains NUL character: {doc.text[:50]}...")
+    sanitized_docs.append(doc.text.replace("\x00", ""))
+
 # Generate embeddings
 embeddings = embed_model.get_text_embedding_batch(
-    [doc.text for doc in docs], show_progress=True
+    sanitized_docs, show_progress=True, embed_batch_size=1
 )
 
 # Create list of TextNode objects with embeddings and text
 nodes: List[TextNode] = []
-for doc_text, embedding in zip(docs, embeddings):
-    node = TextNode(text=doc_text.text, embedding=embedding,)
+for s_doc_text, embedding in zip(sanitized_docs, embeddings):
+    node = TextNode(text=s_doc_text, embedding=embedding,)
     nodes.append(node)
 
 # Create the index from nodes
