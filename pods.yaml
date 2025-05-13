@@ -42,9 +42,16 @@ spec:
       value: admin
     image: docker.io/pgvector/pgvector:pg17
     name: postgrespod-pgvectorcontainer
+    resources:
+      requests:
+        memory: 2000Mi
+      limits:
+        memory: 40000Mi
     volumeMounts:
     - mountPath: /var/lib/postgresql/data
       name: postgres-data-pvc
+    - mountPath: /dev/shm
+      name: dshm
   - env:
     - name: NO_PROXY
       value: local,169.254/16
@@ -64,3 +71,7 @@ spec:
   - name: postgres-data-pvc
     persistentVolumeClaim:
       claimName: postgres-data
+  - name: dshm
+    emptyDir:
+      medium: Memory
+      sizeLimit: 10Gi # Adjust this size as needed, e.g., 256Mi, 512Mi, 1Gi
