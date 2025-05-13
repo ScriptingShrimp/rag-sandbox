@@ -6,13 +6,6 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    io.kubernetes.cri-o.SandboxID/greatellis: c0692107a8c17223dd748795d6118e44f4b4b935280a406877aa1faa17dbd4c8
-    io.kubernetes.cri-o.SandboxID/pgadmincontainer/postgrespod-pgadmincontainer: ceb42283d327551d46848a625ef453a256658764219d088fb8a41d7a67c093b9
-    io.kubernetes.cri-o.SandboxID/pgadmincontainer/postgrespod-pgvectorcontainer: ceb42283d327551d46848a625ef453a256658764219d088fb8a41d7a67c093b9
-    io.kubernetes.cri-o.SandboxID/pgvectorcontainer/postgrespod-pgadmincontainer: ceb42283d327551d46848a625ef453a256658764219d088fb8a41d7a67c093b9
-    io.kubernetes.cri-o.SandboxID/pgvectorcontainer/postgrespod-pgvectorcontainer: ceb42283d327551d46848a625ef453a256658764219d088fb8a41d7a67c093b9
-    io.kubernetes.cri-o.SandboxID/postgrespod-pgadmincontainer: c0692107a8c17223dd748795d6118e44f4b4b935280a406877aa1faa17dbd4c8
-    io.kubernetes.cri-o.SandboxID/postgrespod-pgvectorcontainer: c0692107a8c17223dd748795d6118e44f4b4b935280a406877aa1faa17dbd4c8
     io.podman.annotations.kube.health.check/postgrespod-pgadmincontainer: "true"
     io.podman.annotations.kube.health.check/postgrespod-pgvectorcontainer: "true"
     io.podman.annotations.userns: host
@@ -58,7 +51,10 @@ spec:
     - name: TERM
       value: xterm
     image: ghcr.io/nlmatics/nlm-ingestor:latest
-    name: greatellis
+    name: nlm-ingestor
+    ports:
+    - containerPort: 5001
+      hostPort: 5001
     tty: true
   restartPolicy: Always
   volumes:
