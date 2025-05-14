@@ -36,7 +36,9 @@ vector_store = PGVectorStore.from_params(
     host=cfg["db"]["host"],
     port=cfg["db"]["port"],
     table_name=cfg["db"]["table"],
-    embed_dim=cfg["embedding"]["dimensions"]
+    embed_dim=cfg["embedding"]["dimensions"],
+    debug=True,
+    perform_setup=False
 )
 
 # Create a storage context with the existing vector store
@@ -52,5 +54,5 @@ index = VectorStoreIndex.from_vector_store(
 # Create a query engine
 query_engine = index.as_query_engine(llm=llm)
 # Query the index
-response = query_engine.query("what is sail operator and how to use it?")
+response = query_engine.query("what is isito?")
 print(response)
